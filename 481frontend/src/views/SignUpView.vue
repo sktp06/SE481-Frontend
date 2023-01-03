@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <navbar-component></navbar-component> -->
     <main>
       <section class="absolute w-full h-full">
         <div
@@ -66,14 +65,3 @@
     </main>
   </div>
 </template>
-// //
-<script>
-// import NavbarComponent from "../components/NavBar.vue";
-// export default {
-//   name: "login-page",
-//   components: {
-//     NavbarComponent,
-//   },
-// };
-//
-</script>

@@ -1,5 +1,13 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-  </div>
+  <navbar-component></navbar-component>
 </template>
+
+<script>
+import NavbarComponent from "../components/NavBar.vue";
+export default {
+  name: "login-page",
+  components: {
+    NavbarComponent,
+  },
+};
+</script>

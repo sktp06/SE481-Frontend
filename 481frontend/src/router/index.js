@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import Login from "../views/LoginView.vue";
 import SignUp from "../views/SignUpView.vue";
+import BookMark from "../views/BookmarkView.vue";
 const routes = [
   {
     path: "/",
@@ -18,6 +19,11 @@ const routes = [
     component: SignUp,
   },
   { path: "/:pathMatch(.*)*", redirect: "/sign-up" },
+  {
+    path: "/bookmark",
+    component: BookMark,
+  },
+  { path: "/:pathMatch(.*)*", redirect: "/bookmark" },
 ];
 
 const router = createRouter({
