@@ -21,35 +21,39 @@
                   <hr class="mt-6 border-b-1 border-gray-400" />
                 </div>
                 <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-                  <form>
+                  <Form @submit="handleLogin" :validation-schema="schema">
                     <div class="relative w-full mb-3">
                       <label
                         class="block uppercase text-gray-700 text-xs font-bold mb-2"
                         for="grid-password"
                         >Username</label
-                      ><input
-                        type="username"
+                      ><Field
+                        name="username"
+                        type="text"
                         class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                         placeholder="Username"
                         style="transition: all 0.15s ease 0s"
                       />
+                      <ErrorMessage name="username" class="error-feedback" />
                     </div>
                     <div class="relative w-full mb-3">
                       <label
                         class="block uppercase text-gray-700 text-xs font-bold mb-2"
                         for="grid-password"
                         >Password</label
-                      ><input
+                      ><Field
+                        name="password"
                         type="password"
                         class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                         placeholder="Password"
                         style="transition: all 0.15s ease 0s"
                       />
+                      <ErrorMessage name="password" class="error-feedback" />
                     </div>
                     <div class="text-center mt-6">
                       <button
                         class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
-                        type="button"
+                        type="submit"
                         style="transition: all 0.15s ease 0s"
                       >
                         Sign In
@@ -62,7 +66,7 @@
                         >
                       </div>
                     </div>
-                  </form>
+                  </Form>
                 </div>
               </div>
             </div>
@@ -72,3 +76,39 @@
     </main>
   </div>
 </template>
+<script>
+import { Form, Field, ErrorMessage } from "vee-validate";
+import * as yup from "yup";
+import AuthService from "@/services/AuthService.js";
+export default {
+  name: "LoginView",
+  components: {
+    Form,
+    Field,
+    ErrorMessage,
+  },
+  data() {
+    const schema = yup.object().shape({
+      username: yup.string().required("Username is required!"),
+      password: yup.string().required("Password is required!"),
+    });
+    return {
+      loading: false,
+      message: "",
+      schema,
+    };
+  },
+  methods: {
+    handleLogin(user) {
+      AuthService.login(user)
+        .then((res) => {
+          console.log(res);
+          this.$router.push({ name: "home" });
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+  },
+};
+</script>

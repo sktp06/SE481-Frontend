@@ -1,13 +1,11 @@
 <template>
-  <navbar-component></navbar-component>
+  <div class="">
+    <h1>Home</h1>
+  </div>
 </template>
 
 <script>
-import NavbarComponent from "../components/NavBar.vue";
 export default {
   name: "login-page",
-  components: {
-    NavbarComponent,
-  },
 };
 </script>
