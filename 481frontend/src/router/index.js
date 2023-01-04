@@ -2,7 +2,9 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import Login from "../views/LoginView.vue";
 import SignUp from "../views/SignUpView.vue";
-import BookMark from "../views/BookmarkView.vue";
+import Bookmark from "../views/BookmarkView.vue";
+import store from '../store'
+
 const routes = [
   {
     path: "/",
@@ -11,17 +13,20 @@ const routes = [
   },
   {
     path: "/login",
+    name: "login",
     component: Login,
   },
   { path: "/:pathMatch(.*)*", redirect: "/login" },
   {
     path: "/sign-up",
+    name: "sign-up",
     component: SignUp,
   },
   { path: "/:pathMatch(.*)*", redirect: "/sign-up" },
   {
     path: "/bookmark",
-    component: BookMark,
+    name: "bookmark",
+    component: Bookmark,
   },
   { path: "/:pathMatch(.*)*", redirect: "/bookmark" },
 ];
@@ -29,6 +34,13 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { top: 0 }
+    }
+  }
 });
 
 export default router;

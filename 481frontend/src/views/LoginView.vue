@@ -53,7 +53,7 @@
                     <div class="text-center mt-6">
                       <button
                         class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
-                        type="button"
+                        type="submit"
                         style="transition: all 0.15s ease 0s"
                       >
                         Sign In
@@ -100,14 +100,13 @@ export default {
   },
   methods: {
     handleLogin(user) {
-      console.log(user);
       AuthService.login(user)
-        .then((response) => {
-          console.log(response);
-          this.$router.push({ name: "EventList" });
+        .then((res) => {
+          console.log(res);
+          this.$router.push({ name: "home" });
         })
-        .catch(() => {
-          this.message = "could not login";
+        .catch((e) => {
+          console.log(e);
         });
     },
   },
