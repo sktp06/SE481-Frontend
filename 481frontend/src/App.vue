@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <NavbarComponent v-if="GStore.currentUser"/>
+    <NavbarComponent />
     <router-view />
   </div>
 </template>
@@ -13,5 +13,5 @@ export default {
     NavbarComponent,
   },
   inject: ["GStore"],
-}
+};
 </script>

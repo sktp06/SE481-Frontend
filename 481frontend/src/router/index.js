@@ -3,7 +3,6 @@ import HomeView from "../views/HomeView.vue";
 import Login from "../views/LoginView.vue";
 import SignUp from "../views/SignUpView.vue";
 import Bookmark from "../views/BookmarkView.vue";
-import store from '../store'
 
 const routes = [
   {
@@ -36,11 +35,11 @@ const router = createRouter({
   routes,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
-      return savedPosition
+      return savedPosition;
     } else {
-      return { top: 0 }
+      return { top: 0 };
     }
-  }
+  },
 });
 
 export default router;

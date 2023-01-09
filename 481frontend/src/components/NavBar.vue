@@ -1,64 +1,58 @@
 <template>
   <div
-    class="top-0 w-full h-[60px] bg-gray-900"
+    class="top-0 flex justify-between items-center px-3 md:px-6 w-full h-[60px] bg-pink-200"
   >
-    <nav
-      class="flex tems-center justify-between px-2 py-3"
+    <div
+      class="text-sm font-bold leading-relaxed i -2 whitespace-nowrap uppercase text-blue-900 gap-x-3 flex flex-row drop-shadow-lg shadow-blue-600/50"
     >
-      <div
-        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      <router-link to="/">Anime</router-link>
+      <router-link v-if="GStore.currentUser" to="/bookmark"
+        >Bookmark</router-link
       >
-        <div
-          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
-        >
-          <router-link
-            to="/"
-            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-blue-300"
-            >Anime</router-link
-          >
-          <router-link
-            to="/bookmark"
-            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-blue-300"
-            >Bookmark</router-link
-          >
+    </div>
+    <div
+      v-if="GStore.currentUser"
+      class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+    >
+      <div class="flex items-center justify-center">
+        <div class="flex border-2 rounded h-9">
+          <input type="text" class="px-4 py-2 w-80" placeholder="Search..." />
+          <button class="flex items-center justify-center px-4 border-l">
+            <svg
+              class="w-6 h-6 text-blue-300"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"
+              />
+            </svg>
+          </button>
         </div>
-        <div
-          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
-        >
-          <div class="flex items-center justify-center">
-            <div class="flex border-2 rounded h-9">
-              <input type="text" class="px-4 py-2 w-80" placeholder="Search..." />
-              <button class="flex items-center justify-center px-4 border-l">
-                <svg
-                  class="w-6 h-6 text-blue-300"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-        <button
-          v-if="!GStore.currentUser"
-          @click="$router.push('login')"
-          class="bg-white text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
-        >
-          Login
-        </button>
-        <button
-          v-else
-          @click="handleLogout"
-          class="bg-white text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
-        >
-          logout
-        </button>
       </div>
-    </nav>
+    </div>
+    <button
+      v-if="!GStore.currentUser && $route.name != 'login'"
+      @click="$router.push('login')"
+      class="bg-white text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 m-3 animate-bounce"
+    >
+      Login
+    </button>
+    <div
+      class="flex flex-row items-center justify-center gap-x-[12px]"
+      v-if="GStore.currentUser"
+    >
+      <p class="text-white text-xs font-bold uppercase text-rose-700">
+        Username: {{ GStore.currentUser && GStore.currentUser.username }}
+      </p>
+      <button
+        @click="handleLogout"
+        class="bg-white text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
+      >
+        logout
+      </button>
+    </div>
   </div>
 </template>
 <script>
