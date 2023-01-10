@@ -15,27 +15,34 @@
       class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
     >
       <div class="flex items-center justify-center">
-        <!-- adding the searBy button -->
-        <div class="font-sans mr-2 text-sm font-bold">SearchBy:</div>
-        <input type="radio" id="one" value="Title" v-model="SearchBy" />
-        <label class="font-sans mr-2" for="one">Title</label>
-        <input type="radio" id="two" value="Description" v-model="SearchBy" />
-        <label class="font-sans" for="two">Description</label>
         <Form
           @submit="onSearch"
           :validation-schema="schema"
-          class="flex border-2 rounded h-9 ml-4"
+          class="flex gap-x-2"
         >
+          <span class="font-sans mr-2 text-sm font-bold my-auto"
+            >SearchBy:</span
+          >
+          <div>
+            <div class="flex items-center gap-x-2">
+              <Field name="qoption" type="radio" id="one" value="title" />
+              <label class="font-sans mr-2" for="one">Title</label>
+            </div>
+            <div class="flex items-center gap-x-2">
+              <Field name="qoption" type="radio" id="two" value="description" />
+              <label class="font-sans" for="two">Description</label>
+            </div>
+          </div>
           <Field
             class="px-4 py-2 w-80"
-            type="input"
-            name="input"
+            type="text"
+            name="query"
             placeholder="Search..."
           />
+
           <button
             class="flex items-center justify-center px-4 border-l"
             type="submit"
-            @click="onSearch"
           >
             <svg
               class="w-6 h-6 text-blue-300"
@@ -77,7 +84,7 @@
 <script>
 import AuthService from "@/services/AuthService.js";
 import SearchService from "@/services/SearchService.js";
-import { ref } from "vue";
+import SpellService from "@/services/SpellService.js";
 import { Form, Field } from "vee-validate";
 import * as yup from "yup";
 
@@ -90,7 +97,8 @@ export default {
   },
   data() {
     const schema = yup.object().shape({
-      input: yup.string(),
+      qoption: yup.string().required(),
+      query: yup.string().required(),
     });
     return {
       schema,
@@ -102,15 +110,26 @@ export default {
       AuthService.logout();
       this.$router.push("/login");
     },
-    onSearch(input) {
-      console.log(input);
-      SearchService.getAnimeTitle(input);
+    onSearch(query) {
+      if (query["qoption"] === "title") {
+        SearchService.getAnimeTitle(query["query"]);
+      } else if (query["qoption"] === "description") {
+        SearchService.getAnimeDescription(query["query"]);
+      } else {
+        alert("Something went wrong!");
+      }
+      SpellService.correction(query["query"])
+        .then((res) => {
+          console.log(res.data);
+          if (query["query"] != res.data) {
+            alert("May be you mean: " + res.data);
+          }
+        })
+        .catch(() => {
+          alert("Something went wrong!");
+        });
+      this.$router.push("event-card");
     },
-  },
-  //set up searchBy radio button
-  setup() {
-    const SearchBy = ref("");
-    return { SearchBy };
   },
 };
 </script>
