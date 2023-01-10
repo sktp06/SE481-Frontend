@@ -3,7 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import Login from "../views/LoginView.vue";
 import SignUp from "../views/SignUpView.vue";
 import Bookmark from "../views/BookmarkView.vue";
-
+import EventCardView from "../views/EventCardView.vue";
 const routes = [
   {
     path: "/",
@@ -28,6 +28,12 @@ const routes = [
     component: Bookmark,
   },
   { path: "/:pathMatch(.*)*", redirect: "/bookmark" },
+  {
+    path: "/event-card",
+    name: "event-card",
+    component: EventCardView,
+  },
+  { path: "/:pathMatch(.*)*", redirect: "/event-card" },
 ];
 
 const router = createRouter({
