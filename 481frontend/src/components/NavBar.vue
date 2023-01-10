@@ -15,9 +15,28 @@
       class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
     >
       <div class="flex items-center justify-center">
-        <div class="flex border-2 rounded h-9">
-          <input type="text" class="px-4 py-2 w-80" placeholder="Search..." />
-          <button class="flex items-center justify-center px-4 border-l">
+        <!-- adding the searBy button -->
+        <div class="font-sans mr-2 text-sm font-bold">SearchBy:</div>
+        <input type="radio" id="one" value="Title" v-model="SearchBy" />
+        <label class="font-sans mr-2" for="one">Title</label>
+        <input type="radio" id="two" value="Description" v-model="SearchBy" />
+        <label class="font-sans" for="two">Description</label>
+        <Form
+          @submit="onSearch"
+          :validation-schema="schema"
+          class="flex border-2 rounded h-9 ml-4"
+        >
+          <Field
+            class="px-4 py-2 w-80"
+            type="input"
+            name="input"
+            placeholder="Search..."
+          />
+          <button
+            class="flex items-center justify-center px-4 border-l"
+            type="submit"
+            @click="onSearch"
+          >
             <svg
               class="w-6 h-6 text-blue-300"
               fill="currentColor"
@@ -29,7 +48,7 @@
               />
             </svg>
           </button>
-        </div>
+        </Form>
       </div>
     </div>
     <button
@@ -57,19 +76,41 @@
 </template>
 <script>
 import AuthService from "@/services/AuthService.js";
+import SearchService from "@/services/SearchService.js";
+import { ref } from "vue";
+import { Form, Field } from "vee-validate";
+import * as yup from "yup";
+
 export default {
+  inject: ["GStore"],
   name: "navbar-component",
+  components: {
+    Form,
+    Field,
+  },
   data() {
+    const schema = yup.object().shape({
+      input: yup.string(),
+    });
     return {
+      schema,
       showMenu: false,
     };
   },
-  inject: ["GStore"],
   methods: {
     handleLogout() {
       AuthService.logout();
       this.$router.push("/login");
     },
+    onSearch(input) {
+      console.log(input);
+      SearchService.getAnimeTitle(input);
+    },
+  },
+  //set up searchBy radio button
+  setup() {
+    const SearchBy = ref("");
+    return { SearchBy };
   },
 };
 </script>
