@@ -111,18 +111,21 @@ export default {
       this.$router.push("/login");
     },
     onSearch(query) {
-      if (query["qoption"] === "title") {
-        SearchService.getAnimeTitle(query["query"]);
-      } else if (query["qoption"] === "description") {
-        SearchService.getAnimeDescription(query["query"]);
-      } else {
-        alert("Something went wrong!");
-      }
       SpellService.correction(query["query"])
         .then((res) => {
-          console.log(res.data);
           if (query["query"] != res.data) {
             alert("May be you mean: " + res.data);
+            if (query["qoption"] === "title") {
+              SearchService.getAnimeTitle(res.data);
+            } else if (query["qoption"] === "description") {
+              SearchService.getAnimeDescription(res.data);
+            }
+          } else {
+            if (query["qoption"] === "title") {
+              SearchService.getAnimeTitle(res.data);
+            } else if (query["qoption"] === "description") {
+              SearchService.getAnimeDescription(res.data);
+            }
           }
         })
         .catch(() => {

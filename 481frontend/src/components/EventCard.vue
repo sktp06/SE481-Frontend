@@ -5,8 +5,9 @@
     <!-- example of content -->
     <img :src="item.images" alt="images" class="h-auto w-full" />
     <div>
-      <p class="text-medium mb-5 text-gray-700">{{ item.title }}</p>
-      {{ item }}
+      <p class="text-medium mb-5 text-gray-700 text-center mt-6 capitalize">
+        {{ item.title }}
+      </p>
     </div>
   </div>
 </template>
