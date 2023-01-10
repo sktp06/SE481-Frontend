@@ -21,15 +21,20 @@
         <label class="font-sans mr-2" for="one">Title</label>
         <input type="radio" id="two" value="Description" v-model="SearchBy" />
         <label class="font-sans" for="two">Description</label>
-        <div class="flex border-2 rounded h-9 ml-4">
-          <input
-            type="text"
+        <Form
+          @submit="onSearch"
+          :validation-schema="schema"
+          class="flex border-2 rounded h-9 ml-4"
+        >
+          <Field
             class="px-4 py-2 w-80"
-            v-model="search"
+            type="input"
+            name="input"
             placeholder="Search..."
           />
           <button
             class="flex items-center justify-center px-4 border-l"
+            type="submit"
             @click="onSearch"
           >
             <svg
@@ -43,7 +48,7 @@
               />
             </svg>
           </button>
-        </div>
+        </Form>
       </div>
     </div>
     <button
@@ -73,22 +78,33 @@
 import AuthService from "@/services/AuthService.js";
 import SearchService from "@/services/SearchService.js";
 import { ref } from "vue";
+import { Form, Field } from "vee-validate";
+import * as yup from "yup";
 
 export default {
+  inject: ["GStore"],
   name: "navbar-component",
+  components: {
+    Form,
+    Field,
+  },
   data() {
+    const schema = yup.object().shape({
+      input: yup.string(),
+    });
     return {
+      schema,
       showMenu: false,
     };
   },
-  inject: ["GStore"],
   methods: {
     handleLogout() {
       AuthService.logout();
       this.$router.push("/login");
     },
-    onSearch() {
-      SearchService.getAnimeTitle();
+    onSearch(input) {
+      console.log(input);
+      SearchService.getAnimeTitle(input);
     },
   },
   //set up searchBy radio button
