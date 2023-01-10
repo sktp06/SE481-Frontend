@@ -15,9 +15,23 @@
       class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
     >
       <div class="flex items-center justify-center">
-        <div class="flex border-2 rounded h-9">
-          <input type="text" class="px-4 py-2 w-80" placeholder="Search..." />
-          <button class="flex items-center justify-center px-4 border-l">
+        <!-- adding the searBy button -->
+        <div class="font-sans mr-2 text-sm font-bold">SearchBy:</div>
+        <input type="radio" id="one" value="Title" v-model="SearchBy" />
+        <label class="font-sans mr-2" for="one">Title</label>
+        <input type="radio" id="two" value="Description" v-model="SearchBy" />
+        <label class="font-sans" for="two">Description</label>
+        <div class="flex border-2 rounded h-9 ml-4">
+          <input
+            type="text"
+            class="px-4 py-2 w-80"
+            v-model="search"
+            placeholder="Search..."
+          />
+          <button
+            class="flex items-center justify-center px-4 border-l"
+            @click="onSearch"
+          >
             <svg
               class="w-6 h-6 text-blue-300"
               fill="currentColor"
@@ -57,6 +71,9 @@
 </template>
 <script>
 import AuthService from "@/services/AuthService.js";
+import SearchService from "@/services/SearchService.js";
+import { ref } from "vue";
+
 export default {
   name: "navbar-component",
   data() {
@@ -70,6 +87,14 @@ export default {
       AuthService.logout();
       this.$router.push("/login");
     },
+    onSearch() {
+      SearchService.getAnimeTitle();
+    },
+  },
+  //set up searchBy radio button
+  setup() {
+    const SearchBy = ref("");
+    return { SearchBy };
   },
 };
 </script>
