@@ -4,6 +4,8 @@ import Login from "../views/LoginView.vue";
 import SignUp from "../views/SignUpView.vue";
 import Bookmark from "../views/BookmarkView.vue";
 import EventCardView from "../views/EventCardView.vue";
+import EventCardDetailsView from "../views/EventCardDetailsView.vue";
+import GStore from "@/store";
 const routes = [
   {
     path: "/",
@@ -31,6 +33,26 @@ const routes = [
   {
     path: "/event-card",
     name: "event-card",
+    component: EventCardView,
+  },
+  { path: "/:pathMatch(.*)*", redirect: "/event-card" },
+  {
+    path: "/animeDetails/:id",
+    name: "event-details",
+    props: true,
+    component: EventCardDetailsView,
+    beforeEnter: (to) => {
+      console.log(to.params.id);
+      GStore.animeDetails = GStore.animeList.filter(
+        (itemInArray) => itemInArray.mal_id == to.params.id
+      );
+      console.log(GStore.animeDetails);
+    },
+  },
+  // fix error path
+  {
+    path: "/animeDetails/event-card",
+    name: "event-card-details",
     component: EventCardView,
   },
   { path: "/:pathMatch(.*)*", redirect: "/event-card" },
