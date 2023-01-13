@@ -6,6 +6,7 @@ import Bookmark from "../views/BookmarkView.vue";
 import EventCardView from "../views/EventCardView.vue";
 import EventCardDetailsView from "../views/EventCardDetailsView.vue";
 import GStore from "@/store";
+import BookmarkService from "@/services/BookmarkService";
 const routes = [
   {
     path: "/",
@@ -28,6 +29,11 @@ const routes = [
     path: "/bookmark",
     name: "bookmark",
     component: Bookmark,
+    beforeEnter: () => {
+      BookmarkService.getbookmarkList(
+        JSON.parse(localStorage.getItem("user")).id
+      );
+    },
   },
   { path: "/:pathMatch(.*)*", redirect: "/bookmark" },
   {
@@ -42,11 +48,11 @@ const routes = [
     props: true,
     component: EventCardDetailsView,
     beforeEnter: (to) => {
-      console.log(to.params.id);
       GStore.animeDetails = GStore.animeList.filter(
         (itemInArray) => itemInArray.mal_id == to.params.id
       );
-      console.log(GStore.animeDetails);
+      // BookmarkService.getBookmarkById(to.params.id)
+      // console.log(to.params.id);
     },
   },
   // fix error path
@@ -61,7 +67,7 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(savedPosition) {
     if (savedPosition) {
       return savedPosition;
     } else {
