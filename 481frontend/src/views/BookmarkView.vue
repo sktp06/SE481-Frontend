@@ -31,25 +31,28 @@
           </p>
         </div>
       </div>
-      <!-- <button
-        @click="handleRemove()"
+      <button
+        @click="handleRemove(item.mal_id)"
         class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
       >
         Remove
-      </button> -->
+      </button>
     </div>
   </div>
 </template>
 <script>
-// import BookmarkService from "@/services/BookmarkService.js";
+import BookmarkService from "@/services/BookmarkService.js";
 
 export default {
   name: "bookmark-page",
   inject: ["GStore"],
-  // methods: {
-  //   handleRemove() {
-  //     BookmarkService.removeBookmark(localStorage.removeItem());
-  //   },
-  // },
+  methods: {
+    handleRemove(animeId) {
+      BookmarkService.removeBookmark(
+        JSON.parse(localStorage.getItem("user")).id,
+        animeId
+      );
+    },
+  },
 };
 </script>

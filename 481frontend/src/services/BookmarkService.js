@@ -14,10 +14,19 @@ export default {
     alert.response.data.message;
   },
   removeBookmark(userId, animeId) {
-    apiClient.post("/bookmarks/remove", {
-      userId: userId,
-      animeId: animeId,
-    });
+    apiClient
+      .post("/bookmarks/remove", {
+        userId: userId,
+        animeId: animeId,
+      })
+      .then((res) => {
+        alert(res.data.message);
+        location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(err.response.data.message);
+      });
   },
   getbookmarkList(userId) {
     apiClient
