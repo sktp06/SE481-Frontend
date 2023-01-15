@@ -5,7 +5,6 @@
     >
       My Favourites Lists
     </h5>
-
     <div
       v-for="item in GStore.bookmarks"
       :key="item.mal_id"

@@ -24,7 +24,6 @@ export default {
         location.reload();
       })
       .catch((err) => {
-        console.log(err);
         alert(err.response.data.message);
       });
   },
@@ -34,7 +33,8 @@ export default {
         userId: userId,
       })
       .then((res) => {
-        GStore.bookmarks = res.data.animes;
+        console.log(res)
+        GStore.bookmarks = res.data.animes.sort((x, y) => x.score - y.score);
       })
       .catch((err) => {
         console.log(err);
