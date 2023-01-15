@@ -3,7 +3,6 @@ import GStore from "@/store";
 
 export default {
   login(user) {
-    console.log(user);
     return apiClient
       .post("/auth/", user)
       .then((response) => {
